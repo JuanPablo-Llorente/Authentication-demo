@@ -13,7 +13,7 @@ function Login()
     const users = useSelector(state => state.users);
     const [errors, setErrors] = useState({});
     const [input, setInput] = useState({
-        userName: "",
+        user: "",
         password: "",
     });
     const navigate = useNavigate();
@@ -24,9 +24,9 @@ function Login()
     {
         const errors = {};
         
-        if(!input.userName)
+        if(!input.user)
         {
-            errors.userName = <font color="red">*</font>;
+            errors.user = <font color="red">*</font>;
         }
         else if(!input.password)
         {
@@ -49,15 +49,15 @@ function Login()
         // console.log(input);
     };
     
-    function handleShowPassword(e)
-    {
+    // function handleShowPassword(e)
+    // {
         
-    }
+    // }
     
     function handleSubmit(e)
     {
-        const foundUsername = users.filter(e => e.userName === input.userName);
-        const foundEmail = users.filter(e => e.email === input.userName);
+        const foundUsername = users.filter(e => e.userName === input.user);
+        const foundEmail = users.filter(e => e.email === input.user);
 
         if(Object.keys(validate(input)).length > 0)
         {
@@ -68,31 +68,39 @@ function Login()
         {
             if(foundUsername.length || foundEmail.length)
             {
-                const foundPassword = 
-                
-                e.preventDefault();
+                // e.preventDefault();
                 dispatch(login(input));
                 setInput({
-                    userName: "",
+                    user: "",
                     password: "",
                 });
-                navigate("/login");
+                console.log(input);
+                navigate("/profile");
             }
+            else
+            {
+                e.preventDefault();
+                alert("Incorrect user or password.");
+            };
         };
     };
     
     return(
         <div className={styles.Container}>
             <form onSubmit={e => handleSubmit(e)}>
-                <input onChange={e => handleChange(e)} type="text" placeholder="Username or email" name="userName"/>
-                {
-                    errors.userName && errors.userName
-                }
-                <input onChange={e => handleChange(e)} type="password" placeholder="Password" name="password"/>
-                {
-                    errors.password && errors.password
-                }
-                <button className={styles.SubmitButton} type="submit">Register</button>
+                <div>
+                    <input onChange={e => handleChange(e)} type="text" placeholder="Username or email" name="user"/>
+                    {
+                        errors.user && errors.user
+                    }
+                </div>
+                <div>
+                    <input onChange={e => handleChange(e)} type="password" placeholder="Password" name="password"/>
+                    {
+                        errors.password && errors.password
+                    }
+                </div>
+                <button className={styles.SubmitButton} type="submit">Login</button>
             </form>
         </div>
     );

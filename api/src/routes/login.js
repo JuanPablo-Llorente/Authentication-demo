@@ -34,7 +34,7 @@ router.post("/login", async (req, res) => {
                 
                 if(checkPassword)
                 {
-                    res.send("Token: " + token);
+                    res.send(token);
                     // res.send("Loged");
                 }
                 else

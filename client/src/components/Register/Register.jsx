@@ -2,6 +2,7 @@
 import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import swal from "sweetalert";
 // Files
 import {getUsers, register} from "../../redux/actions/actions";
 import styles from "./Register.module.css";
@@ -73,7 +74,7 @@ function Register()
         if(Object.keys(validate(input)).length > 0)
         {
             e.preventDefault();
-            alert("All fields are required.");
+            swal("All fields are required.");
         }
         else
         {
@@ -86,7 +87,7 @@ function Register()
                 email: "",
                 password: "",
             });
-            alert("The user was successfully created!");
+            swal("The user was successfully created!");
             navigate("/login");
         };
     };
@@ -94,27 +95,39 @@ function Register()
     
     return(
         <div className={styles.Container}>
-            <form onSubmit={e => handleSubmit(e)}>
-                <input onChange={e => handleChange(e)} type="text" placeholder="Name" name="name"/>
-                {
-                    errors.name && errors.name
-                }
-                <input onChange={e => handleChange(e)} type="text" placeholder="Last name" name="lastName"/>
-                {
-                    errors.lastName && errors.lastName
-                }
-                <input onChange={e => handleChange(e)} type="text" placeholder="Username" name="userName"/>
-                {
-                    errors.userName && errors.userName
-                }
-                <input onChange={e => handleChange(e)} type="email" placeholder="Email" name="email"/>
-                {
-                    errors.email && errors.email
-                }
-                <input onChange={e => handleChange(e)} type="password" placeholder="Password" name="password"/>
-                {
-                    errors.password && errors.password
-                }
+            <form onSubmit={e => handleSubmit(e)} className={styles.Form} >
+                <div>
+                    <input onChange={e => handleChange(e)} type="text" placeholder="Name" name="name"/>
+                    {
+                        errors.name && errors.name
+                    }
+                </div>
+                    
+                <div>
+                    <input onChange={e => handleChange(e)} type="text" placeholder="Last name" name="lastName"/>
+                    {
+                        errors.lastName && errors.lastName
+                    }
+                </div>
+                    
+                <div>
+                    <input onChange={e => handleChange(e)} type="text" placeholder="Username" name="userName"/>
+                    {
+                        errors.userName && errors.userName
+                    }
+                </div>
+                <div>
+                    <input onChange={e => handleChange(e)} type="email" placeholder="Email" name="email"/>
+                    {
+                        errors.email && errors.email
+                    }
+                </div>
+                <div>
+                    <input onChange={e => handleChange(e)} type="password" placeholder="Password" name="password"/>
+                    {
+                        errors.password && errors.password
+                    }
+                </div>
                 <button className={styles.SubmitButton} type="submit">Register</button>
             </form>
         </div>

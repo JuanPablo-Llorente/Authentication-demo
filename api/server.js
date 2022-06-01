@@ -6,6 +6,7 @@ const morgan = require("morgan");
 // Files
 const {db} = require("./src/db");
 const routes = require('./src/routes/index.js');
+const {PORT} = process.env;
 
 // require('./db.js');
 
@@ -19,7 +20,7 @@ server.use(bodyParser.json({ limit: '50mb' }));
 server.use(cookieParser());
 server.use(morgan('dev'));
 server.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:4000'); // update to match the domain you will make the request from
+  res.header('Access-Control-Allow-Origin', '*'); // update to match the domain you will make the request from
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
@@ -35,24 +36,14 @@ server.use((req, res, next) => {
 // });
 
 
-// CookieParser
-// server.use(cookieParser());
-
-// BodyParser
-// server.use(bodyParser.urlencoded({extended: true}));
-// server.use(bodyParser.json());
-
-// Morgan
-// server.use(morgan("dev"));
-
 // Routes
 server.use('/', routes);
 
 
 
 
-server.listen(3000, () => {
-  console.log("Listening on port 3000");
+server.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
   db.sync({force: false})
   .then(console.log("Tables done"));
 });

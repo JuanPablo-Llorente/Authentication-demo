@@ -1,7 +1,7 @@
 // Dependencies
 import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import swal from "sweetalert";
 // Files
 import {getUsers, login} from "../../redux/actions/actions";
@@ -17,6 +17,7 @@ function Login()
         user: "",
         password: "",
     });
+    const [user, setUser] = useState(null);
     const navigate = useNavigate();
     
     useEffect(() => dispatch(getUsers()), [dispatch]);
@@ -72,16 +73,25 @@ function Login()
                 }
                 else
                 {
-                    const token = data.payload;
-                    localStorage.setItem("token", token);
+                    const payload = data.payload;
+                    const userData =
+                    {
+                        id: payload.foundUser[0].id,
+                        userName: payload.foundUser[0].userName,
+                        token: payload.token,
+                    };
+                    
+                    window.localStorage.setItem("token", JSON.stringify(userData));
                     
                     setInput({
                         user: "",
                         password: "",
                     });
                     
-                    swal("Loged!");
-                    navigate("/profile");
+                    setUser(userData);
+                    
+                    swal("Loged.");
+                    // navigate("/profile");
                 };
             }
             else
@@ -94,20 +104,26 @@ function Login()
     
     return(
         <div className={styles.Container}>
-            <form onSubmit={e => handleSubmit(e)} className={styles.Form}>
+            <form onSubmit={handleSubmit} className={styles.Form}>
                 <div>
-                    <input onChange={e => handleChange(e)} type="text" placeholder="Username or email" name="user"/>
+                    <input onChange={handleChange} type="text" placeholder="Username or email" name="user"/>
                     {
                         errors.user && errors.user
                     }
                 </div>
                 <div>
-                    <input onChange={e => handleChange(e)} type="password" placeholder="Password" name="password"/>
+                    <input onChange={handleChange} type="password" placeholder="Password" name="password"/>
                     {
                         errors.password && errors.password
                     }
                 </div>
                 <button className={styles.SubmitButton} type="submit">Login</button>
+                
+                <Link to="/reset"><p>Forgot password?</p></Link>
+                
+                <p>
+                    Don't have an account? <Link to="/register">Sign Up</Link>
+                </p>
             </form>
         </div>
     );

@@ -83,15 +83,16 @@ function Login()
                     
                     window.localStorage.setItem("token", JSON.stringify(userData));
                     
+                    // No se aplica porque esta dentro de una async function
                     setInput({
                         user: "",
                         password: "",
                     });
                     
                     setUser(userData);
-                    
+                    // ------------------------------------------------------
                     swal("Loged.");
-                    // navigate("/profile");
+                    navigate("/profile");
                 };
             }
             else

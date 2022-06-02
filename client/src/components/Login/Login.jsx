@@ -17,7 +17,7 @@ function Login()
         user: "",
         password: "",
     });
-    const [user, setUser] = useState(null);
+    const [/*user*/, setUser] = useState(null);
     const navigate = useNavigate();
     
     useEffect(() => dispatch(getUsers()), [dispatch]);
@@ -81,7 +81,7 @@ function Login()
                         token: payload.token,
                     };
                     
-                    window.localStorage.setItem("token", JSON.stringify(userData));
+                    window.localStorage.setItem("userData", JSON.stringify(userData));
                     
                     // No se aplica porque esta dentro de una async function
                     setInput({

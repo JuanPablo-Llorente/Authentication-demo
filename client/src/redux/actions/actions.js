@@ -29,11 +29,20 @@ export function login(values)
     };
 };
 
-export function profile()
+export function profile(userData)
 {
     return async function(dispatch)
     {
-        const data = (await axios(`${URL}/profile`)).data;
+        const userDataJson = JSON.parse(userData);
+        const token = userDataJson.token;
+        const config =
+        {
+            headers:
+            {
+                authorization: `Bearer ${token}`,
+            },
+        };
+        const data = (await axios(`${URL}/profile`, config)).data;
         return dispatch({type: PROFILE, payload: data});
     };
 };

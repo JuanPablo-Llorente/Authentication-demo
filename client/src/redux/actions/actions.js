@@ -33,17 +33,20 @@ export function profile(userData)
 {
     return async function(dispatch)
     {
-        const userDataJson = JSON.parse(userData);
-        const token = userDataJson.token;
-        const config =
+        if(userData !== null)
         {
-            headers:
+            const userDataJson = JSON.parse(userData);
+            const token = userDataJson.token;
+            const config =
             {
-                authorization: `Bearer ${token}`,
-            },
+                headers:
+                {
+                    authorization: `Bearer ${token}`,
+                },
+            };
+            const data = (await axios(`${URL}/profile`, config)).data;
+            return dispatch({type: PROFILE, payload: data});
         };
-        const data = (await axios(`${URL}/profile`, config)).data;
-        return dispatch({type: PROFILE, payload: data});
     };
 };
 

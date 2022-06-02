@@ -1,8 +1,9 @@
 // Dependencies
 import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
 import swal from "sweetalert";
+import {AiOutlineEyeInvisible, AiOutlineEye} from "react-icons/ai";
 // Files
 import {getUsers, register} from "../../redux/actions/actions";
 import styles from "./Register.module.css";
@@ -20,6 +21,8 @@ function Register()
         email: "",
         password: "",
     });
+    // Show or hide password
+    const [password, setPassword] = useState(false);
     const navigate = useNavigate();
     
     useEffect(() => dispatch(getUsers()), [dispatch]);
@@ -69,6 +72,12 @@ function Register()
         // console.log(input);
     };
     
+    function handleShowPassword(e)
+    {
+        e.preventDefault(e);
+        setPassword(password => !password);
+    };
+    
     function handleSubmit(e)
     {
         if(Object.keys(validate(input)).length > 0)
@@ -97,38 +106,47 @@ function Register()
         <div className={styles.Container}>
             <form onSubmit={e => handleSubmit(e)} className={styles.Form} >
                 <div>
-                    <input onChange={e => handleChange(e)} type="text" placeholder="Name" name="name"/>
+                    <input className={styles.Input} onChange={e => handleChange(e)} type="text" placeholder="Name" name="name"/>
                     {
                         errors.name && errors.name
                     }
                 </div>
                     
                 <div>
-                    <input onChange={e => handleChange(e)} type="text" placeholder="Last name" name="lastName"/>
+                    <input className={styles.Input} onChange={e => handleChange(e)} type="text" placeholder="Last name" name="lastName"/>
                     {
                         errors.lastName && errors.lastName
                     }
                 </div>
                     
                 <div>
-                    <input onChange={e => handleChange(e)} type="text" placeholder="Username" name="userName"/>
+                    <input className={styles.Input} onChange={e => handleChange(e)} type="text" placeholder="Username" name="userName"/>
                     {
                         errors.userName && errors.userName
                     }
                 </div>
                 <div>
-                    <input onChange={e => handleChange(e)} type="email" placeholder="Email" name="email"/>
+                    <input className={styles.Input} onChange={e => handleChange(e)} type="email" placeholder="Email" name="email"/>
                     {
                         errors.email && errors.email
                     }
                 </div>
                 <div>
-                    <input onChange={e => handleChange(e)} type="password" placeholder="Password" name="password"/>
+                    <input className={styles.Input} onChange={e => handleChange(e)} type={password ? "text" : "password"} placeholder="Password" name="password"/>
                     {
                         errors.password && errors.password
                     }
+                    <button className={styles.ShowPassword} onClick={handleShowPassword} type="button">
+                        {
+                            password ? <AiOutlineEyeInvisible/> : <AiOutlineEye/>
+                        }
+                    </button>
                 </div>
                 <button className={styles.SubmitButton} type="submit">Register</button>
+                
+                <p>
+                    Already have an account? <Link to="/login">Sign In</Link>
+                </p>
             </form>
         </div>
     );

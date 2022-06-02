@@ -1,7 +1,7 @@
 .Container
 {
     display: flex;
-    height: 250px;
+    height: 200px;
     width: 300px;
     background: gray;
     border-radius: 20px;
@@ -18,17 +18,17 @@
     justify-content: center;
 }
 
-.Form input
+.Input
 {
     width: 250px;
     height: 30px;
     margin-bottom: 10px;
     border-radius: 8px;
-    border: 1px solid rgba(0, 0, 0, 0.7);
+    border: none;
     box-sizing: border-box;
 }
 
-.Form button
+.SubmitButton
 {
     width: 150px;
     height: 30px;
@@ -51,4 +51,18 @@
 {
     text-decoration: none;
     color: rgba(55, 0, 255, 0.575);
+}
+
+.ShowPassword
+{
+    display: flex;
+    position: absolute;
+    top: 84px;
+    left: 257px;
+    height: auto;
+    width: auto;
+    cursor: pointer;
+    background: white;
+    border: none;
+    border-radius: 5px;
 }

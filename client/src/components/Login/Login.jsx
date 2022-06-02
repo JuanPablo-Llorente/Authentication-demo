@@ -3,6 +3,7 @@ import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
 import swal from "sweetalert";
+import {AiOutlineEyeInvisible, AiOutlineEye} from "react-icons/ai";
 // Files
 import {getUsers, login} from "../../redux/actions/actions";
 import styles from "./Login.module.css";
@@ -18,6 +19,8 @@ function Login()
         password: "",
     });
     const [/*user*/, setUser] = useState(null);
+    // Show or hide password
+    const [password, setPassword] = useState(false);
     const navigate = useNavigate();
     
     useEffect(() => dispatch(getUsers()), [dispatch]);
@@ -45,10 +48,11 @@ function Login()
         // console.log(input);
     };
     
-    // function handleShowPassword(e)
-    // {
-        
-    // }
+    function handleShowPassword(e)
+    {
+        e.preventDefault(e);
+        setPassword(password => !password);
+    };
     
     async function handleSubmit(e)
     {
@@ -107,20 +111,23 @@ function Login()
         <div className={styles.Container}>
             <form onSubmit={handleSubmit} className={styles.Form}>
                 <div>
-                    <input onChange={handleChange} type="text" placeholder="Username or email" name="user"/>
+                    <input className={styles.Input} onChange={handleChange} type="text" placeholder="Username or email" name="user"/>
                     {
                         errors.user && errors.user
                     }
                 </div>
-                <div>
-                    <input onChange={handleChange} type="password" placeholder="Password" name="password"/>
+                <div className={styles.Input}>
+                    <input className={styles.Input} onChange={handleChange} type={password ? "text" : "password"} placeholder="Password" name="password"/>
                     {
                         errors.password && errors.password
                     }
+                    <button className={styles.ShowPassword} onClick={handleShowPassword} type="button">
+                        {
+                            password ? <AiOutlineEyeInvisible/> : <AiOutlineEye/>
+                        }
+                    </button>
                 </div>
                 <button className={styles.SubmitButton} type="submit">Login</button>
-                
-                <Link to="/reset"><p>Forgot password?</p></Link>
                 
                 <p>
                     Don't have an account? <Link to="/register">Sign Up</Link>

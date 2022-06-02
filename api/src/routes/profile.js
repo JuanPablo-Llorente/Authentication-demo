@@ -10,7 +10,7 @@ router.get("/profile", async (req, res) => {
     try
     {
         const {authorization} = req.headers;
-
+        
         if(authorization)
         {
             const token = authorization.split(" ").pop();

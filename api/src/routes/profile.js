@@ -6,7 +6,7 @@ const {User} = require("../db");
 const {verifyToken} = require("../controllers/tokens");
 
 
-router.get("/profile", async (req, res) => {
+router.get("/profile", async (req, res, next) => {
     try
     {
         const {authorization} = req.headers;
@@ -15,7 +15,7 @@ router.get("/profile", async (req, res) => {
         {
             const token = authorization.split(" ").pop();
             const tokenData = await verifyToken(token);
-            const userID = tokenData.id;
+            const userID = tokenData !== undefined ? tokenData.id : null;
             
             if(userID)
             {
@@ -35,7 +35,7 @@ router.get("/profile", async (req, res) => {
     }
     catch(error)
     {
-        console.log(error);
+        next(error);
     };
 });
 

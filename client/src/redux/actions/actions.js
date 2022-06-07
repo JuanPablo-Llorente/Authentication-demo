@@ -1,7 +1,8 @@
 // Dependencies
 import axios from "axios";
 // Files
-const URL = "http://localhost:3000";
+const {REACT_APP_URL, REACT_APP_API_KEY} = process.env;
+const URL = REACT_APP_URL;
 
 
 export const REGISTER = "REGISTER";
@@ -44,7 +45,7 @@ export function profile(userData)
                     authorization: `Bearer ${token}`,
                 },
             };
-            const data = (await axios(`${URL}/profile`, config)).data;
+            const data = (await axios(`${URL}/profile?apiKey=${REACT_APP_API_KEY}`, config)).data;
             return dispatch({type: PROFILE, payload: data});
         };
     };
@@ -54,7 +55,7 @@ export function getUsers()
 {
     return async function(dispatch)
     {
-        const data = (await axios(`${URL}/users`)).data;
+        const data = (await axios(`${URL}/users?apiKey=${REACT_APP_API_KEY}`)).data;
         return dispatch({type: GET_USERS, payload: data});
     };
 };

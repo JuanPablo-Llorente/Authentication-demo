@@ -4,6 +4,7 @@ const router = Router();
 // Files
 const {User} = require("../db");
 const {encrypt} = require("../controllers/bcrypt");
+const {ADMIN_PASSWORD} = process.env;
 
 
 router.post("/register", async (req, res) => {
@@ -36,6 +37,12 @@ router.post("/register", async (req, res) => {
             if(name, lastName, userName, email, password)
             {
                 const passwordHash = await encrypt(password);
+                var admin = false;
+                
+                if(password === ADMIN_PASSWORD)
+                {
+                    admin = true;
+                };
                 
                 await User.create({
                     name,
@@ -43,6 +50,7 @@ router.post("/register", async (req, res) => {
                     userName,
                     email,
                     password: passwordHash,
+                    is_Admin: admin,
                 });
                 
                 res.send("User created successfully.");

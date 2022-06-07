@@ -3,25 +3,35 @@ const {Router} = require("express");
 const router = Router();
 // Files
 const {User} = require("../db");
+const {API_KEY} = process.env;
 
 
 router.get("/users", async(req, res) => {
-    try
+    const {apiKey} = req.query;
+    
+    if(apiKey === API_KEY)
     {
-        const userNames = await User.findAll({
-            attributes: ["userName"],
-        });
-        const userEmails = await User.findAll({
-            attributes: ["email"],
-        });
-        
-        const users = userNames.concat(userEmails);
-
-        res.send(users);
+        try
+        {
+            const userNames = await User.findAll({
+                attributes: ["userName"],
+            });
+            const userEmails = await User.findAll({
+                attributes: ["email"],
+            });
+            
+            const users = userNames.concat(userEmails);
+            
+            res.send(users);
+        }
+        catch(error)
+        {
+            console.log(error);
+        };
     }
-    catch(error)
+    else
     {
-        console.log(error);
+        res.send("No authorization.");
     };
 });
 

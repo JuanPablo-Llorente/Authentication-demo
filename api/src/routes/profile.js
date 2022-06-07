@@ -4,38 +4,48 @@ const router = Router();
 // Files
 const {User} = require("../db");
 const {verifyToken} = require("../controllers/tokens");
+const {API_KEY} = process.env;
 
 
 router.get("/profile", async (req, res, next) => {
-    try
+    const {apiKey} = req.query;
+    
+    if(apiKey === API_KEY)
     {
-        const {authorization} = req.headers;
-        
-        if(authorization)
+        try
         {
-            const token = authorization.split(" ").pop();
-            const tokenData = await verifyToken(token);
-            const userID = tokenData !== undefined ? tokenData.id : null;
+            const {authorization} = req.headers;
             
-            if(userID)
+            if(authorization)
             {
-                const userInfo = await User.findByPk(userID);
+                const token = authorization.split(" ").pop();
+                const tokenData = await verifyToken(token);
+                const userID = tokenData !== undefined ? tokenData.id : null;
                 
-                res.send(userInfo);
+                if(userID)
+                {
+                    const userInfo = await User.findByPk(userID);
+                    
+                    res.send(userInfo);
+                }
+                else
+                {
+                    res.status(409).send("Invalid token.");
+                };
             }
             else
             {
-                res.status(409).send("Invalid token.");
+                res.status(401).send("No authorization.");
             };
         }
-        else
+        catch(error)
         {
-            res.status(401).send("No authorization.");
+            next(error);
         };
     }
-    catch(error)
+    else
     {
-        next(error);
+        res.send("No authorization.");
     };
 });
 

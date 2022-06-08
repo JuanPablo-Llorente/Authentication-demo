@@ -19,6 +19,21 @@ async function signToken(user)
 };
 
 
+async function signTokenForResetPassword(user)
+{
+    return jwt.sign(
+        {
+            id: user.id,
+            email: user.email,
+        },
+        JWT_SECRET,
+        {
+            expiresIn: 300,
+        },
+    );
+};
+
+
 async function verifyToken(token, next)
 {
     try
@@ -35,5 +50,6 @@ async function verifyToken(token, next)
 module.exports =
 {
     signToken,
+    signTokenForResetPassword,
     verifyToken,
 };

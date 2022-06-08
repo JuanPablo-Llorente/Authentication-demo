@@ -1,11 +1,11 @@
 // Dependencies
 const {Router} = require("express");
 const router = Router();
+const {Op} = require("sequelize");
 // Files
 const {User} = require("../db");
 const {compare} = require("../controllers/bcrypt");
 const {signToken} = require("../controllers/tokens");
-const {Op} = require("sequelize");
 
 
 router.post("/login", async (req, res) => {

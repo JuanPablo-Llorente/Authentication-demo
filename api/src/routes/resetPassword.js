@@ -11,12 +11,13 @@ const {verifyToken} = require("../controllers/tokens");
 router.put("/reset/:id", async (req, res) => {
     const {id} = req.params;
     const {password} = req.body;
-    const {token} = req.query;
+    const {authorization} = req.headers;
     
     try
     {
-        if(token)
+        if(authorization)
         {
+            const token = authorization.split(" ").pop();
             const tokenData = await verifyToken(token);
             const userID = tokenData !== undefined ? tokenData.id : null;
             
@@ -35,7 +36,7 @@ router.put("/reset/:id", async (req, res) => {
                             password: passwordHash,
                         });
                         
-                        res.send("Updated.");
+                        res.send("Password updated.");
                     }
                     else
                     {

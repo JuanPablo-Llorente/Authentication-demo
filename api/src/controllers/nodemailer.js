@@ -5,7 +5,7 @@ const {google} = require("googleapis");
 const {CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, REFRESH_TOKEN} = process.env;
 
 
-async function sendEmail(email, id, token)
+async function sendEmail(email, id)
 {
     const oAuth2Client = new google.auth.OAuth2(CLIENT_ID , CLIENT_SECRET , REDIRECT_URI);
     oAuth2Client.setCredentials({refresh_token: REFRESH_TOKEN});
@@ -24,7 +24,7 @@ async function sendEmail(email, id, token)
                 accessToken: accessToken,
             },
         });
-        const link = `<a href=http://localhost:3000/reset/${id}?token=${token}>link</a>`;
+        const link = `<a href=http://localhost:4000/reset/${id}>link</a>`;
         
         const message =
         {

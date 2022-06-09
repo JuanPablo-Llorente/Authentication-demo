@@ -31,9 +31,9 @@ router.post("/forgot", async (req, res) => {
             const email = foundUser[0].dataValues.email;
             const token = await signTokenForResetPassword(foundUser[0].dataValues);
             
-            await sendEmail(email, id, token);
+            await sendEmail(email, id);
             
-            res.send("Send.");
+            res.send(token);
         }
         else
         {

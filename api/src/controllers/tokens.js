@@ -24,7 +24,6 @@ async function signTokenForResetPassword(user)
     return jwt.sign(
         {
             id: user.id,
-            email: user.email,
         },
         JWT_SECRET,
         {

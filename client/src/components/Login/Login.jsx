@@ -132,6 +132,8 @@ function Login()
                 <p>
                     Don't have an account? <Link to="/register">Sign Up</Link>
                 </p>
+                
+                <Link to="/forgot">Forgot your password?</Link>
             </form>
         </div>
     );

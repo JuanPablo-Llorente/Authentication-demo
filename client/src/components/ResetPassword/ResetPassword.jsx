@@ -1,7 +1,7 @@
 // Dependencies
 import React, {useState} from "react";
 import {useDispatch} from "react-redux";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import swal from "sweetalert";
 import {AiOutlineEyeInvisible, AiOutlineEye} from "react-icons/ai";
 // Files
@@ -15,11 +15,13 @@ function ResetPassword()
     const [errors, setErrors] = useState({});
     const [input, setInput] = useState({
         password: "",
+        repeatPassword: "",
     });
     // Show or hide password
     const [password, setPassword] = useState(false);
     const {id} = useParams();
     const resetToken = window.localStorage.getItem("resetToken");
+    const navigate = useNavigate();
     
     
     function validate(input)
@@ -29,6 +31,10 @@ function ResetPassword()
         if(!input.password)
         {
             errors.password = <font color="red">*</font>;
+        }
+        else if(input.password !== input.repeatPassword)
+        {
+            errors.repeatPassword = <p className={styles.Alert}>Passwords don't match.</p>;
         };
         
         return errors;
@@ -63,6 +69,7 @@ function ResetPassword()
             if(data !== true)
             {
                 swal("Password updated.");
+                navigate("/login");
             };
         };
     };
@@ -82,6 +89,12 @@ function ResetPassword()
                         password ? <AiOutlineEyeInvisible/> : <AiOutlineEye/>
                     }
                 </button>
+                <div>
+                    <input className={styles.Input} onChange={e => handleChange(e)} type="password" placeholder="Repeat password" name="repeatPassword"/>
+                    {
+                        errors.repeatPassword && errors.repeatPassword
+                    }
+                </div>
                 <button className={styles.SubmitButton} type="submit">Reset</button>
             </form>
         </div>

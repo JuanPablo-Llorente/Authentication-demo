@@ -20,8 +20,8 @@ function Register()
         userName: "",
         email: "",
         password: "",
+        repeatPassword: "",
     });
-    // Show or hide password
     const [password, setPassword] = useState(false);
     const navigate = useNavigate();
     
@@ -60,6 +60,10 @@ function Register()
         else if(!input.password)
         {
             errors.password = <font color="red">*</font>;
+        }
+        else if(input.password !== input.repeatPassword)
+        {
+            errors.repeatPassword = <p className={styles.Alert}>Passwords don't match.</p>;
         };
         
         return errors;
@@ -141,6 +145,12 @@ function Register()
                             password ? <AiOutlineEyeInvisible/> : <AiOutlineEye/>
                         }
                     </button>
+                </div>
+                <div>
+                    <input className={styles.Input} onChange={e => handleChange(e)} type="password" placeholder="Repeat password" name="repeatPassword"/>
+                    {
+                        errors.repeatPassword && errors.repeatPassword
+                    }
                 </div>
                 <button className={styles.SubmitButton} type="submit">Register</button>
                 

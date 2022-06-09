@@ -1,7 +1,7 @@
 .Container
 {
     display: flex;
-    height: 320px;
+    height: 400px;
     width: 300px;
     background: gray;
     border-radius: 20px;
@@ -57,7 +57,7 @@
 {
     display: flex;
     position: absolute;
-    top: 205px;
+    top: 224px;
     left: 257px;
     height: auto;
     width: auto;
